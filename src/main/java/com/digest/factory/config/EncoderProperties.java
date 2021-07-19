@@ -14,6 +14,8 @@ public class EncoderProperties {
 
     private String algorithm;
 
+    private static final String CONFIG_FILE_PATH = "config/encoder.properties";
+
     private EncoderProperties(){}
 
     private EncoderProperties(String encoderFactory, String charsetName, String algorithm){
@@ -22,14 +24,18 @@ public class EncoderProperties {
         this.algorithm = algorithm;
     }
 
+    /**
+     * 通过配置文件 获取配置
+     * @return EncoderProperties 加密配置
+     */
     public static EncoderProperties getEncoderProperties(){
         Properties props = null;
         InputStream is = null;
-        String fileName = "config/encoder.properties";
+        // 配置文件位置
         try {
-            is = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+            is = Thread.currentThread().getContextClassLoader().getResourceAsStream(CONFIG_FILE_PATH);
             if (is == null) {
-                throw new FileNotFoundException(fileName + " file is not found");
+                throw new FileNotFoundException(CONFIG_FILE_PATH + " file is not found");
             }
             props = new Properties();
             props.load(is);
