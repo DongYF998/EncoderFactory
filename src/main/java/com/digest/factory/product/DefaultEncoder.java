@@ -12,13 +12,13 @@ import java.security.NoSuchAlgorithmException;
 public class DefaultEncoder implements IEncoder {
 
     /** 默认加密信息摘要 */
-    private final MessageDigest messageDigest;
+    private MessageDigest messageDigest;
 
     /** 算法 */
-    private final String algorithm;
+    private String algorithm;
 
     /** 字符集 */
-    private final String charsetName;
+    private String charsetName;
 
     /**
      *  构造器
@@ -34,6 +34,19 @@ public class DefaultEncoder implements IEncoder {
         this.messageDigest = MessageDigest.getInstance(_algorithm);
         this.algorithm = _algorithm;
         this.charsetName = _charsetName;
+    }
+
+    /**
+     * 构造函数
+     * @param algorithm 算法名称
+     * @throws NoSuchAlgorithmException
+     */
+    public DefaultEncoder(String algorithm) throws NoSuchAlgorithmException {
+        this(algorithm, "UTF-8");
+    }
+
+    public DefaultEncoder() throws NoSuchAlgorithmException {
+        this("SHA-1");
     }
 
     /**

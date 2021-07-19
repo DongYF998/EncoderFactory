@@ -7,11 +7,11 @@ import java.io.UnsupportedEncodingException;
 
 public class SM3Encoder implements IEncoder{
 
-    private final SM3Digest sm3Digest;
+    private SM3Digest sm3Digest;
 
-    private final String algorithm;
+    private String algorithm;
 
-    private final String charsetName;
+    private String charsetName;
     
     public SM3Encoder(String algorithm ,String charsetName) {
         // 默认 UTF-8
@@ -19,6 +19,14 @@ public class SM3Encoder implements IEncoder{
         this.sm3Digest = new SM3Digest();
         // SM3 是固定的
         this.algorithm = "SM3".equals(algorithm) ? algorithm: "SM3";
+    }
+
+    public SM3Encoder(String algorithm){
+        this(algorithm,"UTF-8");
+    }
+
+    public SM3Encoder(){
+        this("SM3");
     }
 
     /**

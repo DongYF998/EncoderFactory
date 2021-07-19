@@ -1,7 +1,9 @@
 package com.digest.factory.factory;
 
 import com.digest.factory.config.EncoderProperties;
+import com.digest.factory.product.DefaultEncoder;
 import com.digest.factory.product.IEncoder;
+import com.digest.factory.product.SM3Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +39,31 @@ public class Encoders {
         return null;
     }
 
-    public static IEncoder getEncoderByAlgorithm(String algorithm){
-        return null;
+    /**
+     * 通过算法名称获取Encoder, 并设置为字符集
+     * @param algorithm 算法名称
+     * @param charsetName 字符集
+     * @return Encoder
+     * @throws NoSuchAlgorithmException
+     */
+    public static IEncoder getEncoderByAlgorithm(String algorithm, String charsetName) throws NoSuchAlgorithmException {
+        if("SM3".equals(algorithm)){
+            return new SM3Encoder(algorithm, charsetName);
+        }else {
+            return new DefaultEncoder(algorithm, charsetName);
+        }
+    }
+
+    /**
+     * 通过加密头获取算法类型
+     * @param cipherText
+     * @return
+     */
+    public static IEncoder getEncoderByHeader(String cipherText) throws NoSuchAlgorithmException {
+        if(cipherText.startsWith("$SM3$")){
+            return new SM3Encoder();
+        }else {
+            return new DefaultEncoder();
+        }
     }
 }
